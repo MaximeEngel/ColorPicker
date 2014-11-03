@@ -67,7 +67,7 @@ Window {
                         id: colorDisplay
                         width: parent.width; height: parent.height
                         border.width: 1; border.color: "black"
-                        color: "#AAFFFF00"
+                        color: "#FFFFFF"
                     }
                 }
 
@@ -79,9 +79,10 @@ Window {
                         color: "#AAAAAA"
                         selectionColor: "#FF7777AA"
                         font.pixelSize: 20
+                        font.capitalization: "AllUppercase"
                         maximumLength: 9
                         focus: true
-                        text: "#AAFFFF00"
+                        text: "#FFFFFFFF"
                         font.family: "TlwgTypewriter"
                         anchors.verticalCenterOffset: 0
                         anchors.verticalCenter: parent.verticalCenter
@@ -94,10 +95,10 @@ Window {
                 // H, S, B color value boxes
                 Column {
                     width: parent.width
-                    NumberBox { id: hue; caption: "H"; value:"0.1"}
-                    NumberBox { id: sat; caption: "S"; value:"0.1"}
-                    NumberBox { id: brightness; caption: "B"; value:"0.1"}
-                    NumberBox { id: hsbAlpha; caption: "A"; value:"0.1"}
+                    NumberBox { id: hue; caption: "H"; value:"0.0"; onValueChanged: ColorFunctions.hsbaFieldChanged()}
+                    NumberBox { id: sat; caption: "S"; value:"0.0"; onValueChanged: ColorFunctions.hsbaFieldChanged()}
+                    NumberBox { id: brightness; caption: "B"; value:"0.0"; onValueChanged: ColorFunctions.hsbaFieldChanged()}
+                    NumberBox { id: hsbAlpha; caption: "A"; value:"1.0"; onValueChanged: ColorFunctions.hsbaFieldChanged()}
                 }
 
                 // R, G, B color values boxes
@@ -107,21 +108,25 @@ Window {
                         id: red
                         caption: "R"; value: "255"
                         min: 0; max: 255; decimals: 0
+                        onValueChanged: ColorFunctions.rgbaFieldChanged()
                     }
                     NumberBox {
                         id: green
                         caption: "G"; value: "255"
                         min: 0; max: 255; decimals: 0
+                        onValueChanged: ColorFunctions.rgbaFieldChanged()
                     }
                     NumberBox {
                         id: blue
-                        caption: "B"; value: "0"
+                        caption: "B"; value: "255"
                         min: 0; max: 255; decimals: 0
+                        onValueChanged: ColorFunctions.rgbaFieldChanged()
                     }
                     NumberBox {
                         id: rgbAlpha
-                        caption: "A"; value: "100"
+                        caption: "A"; value: "255"
                         min: 0; max: 255; decimals: 0
+                        onValueChanged: ColorFunctions.rgbaFieldChanged()
                     }
                 }
             }

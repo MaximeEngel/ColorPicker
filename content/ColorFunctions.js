@@ -22,8 +22,10 @@ function wheelHandleMouse(mouse) {
 
         // construct the #AARRGGBB color
         wheel.color = hsba(hue.value, sat.value, brightness.value, hsbAlpha.value);
-        console.log(getChannelStr(currentColor.text,0).toString(16)+wheel.color.substr(1, 6));
+        currentColor.text = "#"+getChannelStr(currentColor.text,0).toString(16)+wheel.color.toString().substr(1,6);
 
+        // brightness slider color
+        brightnessBeginColor.color = "#FF"+currentColor.text.substr(3, 6);
     }
 }
 
@@ -39,14 +41,11 @@ function currentColorChanged(text){
     // color display
     colorDisplay.color = text;
 
-    // brightness slider color
-    brightnessBeginColor.color = "#FF"+text.substr(3, 6);
-
     // alpha slider color
     alphaBeginColor.color = "#FF"+text.substr(3, 6);
 }
 
-// alpha slider listener
+// sliders listener
 function SliderHandleMouse(mouse, name){
     if (mouse.buttons & Qt.LeftButton) {
         pickerCursor.y = Math.max(0, Math.min(height, mouse.y));
@@ -64,6 +63,20 @@ function SliderHandleMouse(mouse, name){
         }
     }
 }
+
+// rgba fields listener
+function rgbaFieldChanged(){
+    currentColor.text = "#" + parseInt(rgbAlpha.value).toString(16) + parseInt(red.value).toString(16) + parseInt(green.value).toString(16) + parseInt(blue.value).toString(16);
+}
+
+// hsba fields listener
+function hsbaFieldChanged(){
+    // construct the #AARRGGBB color
+    wheel.color = hsba(hue.value, sat.value, brightness.value, hsbAlpha.value);
+    console.log(wheel.color);
+    currentColor.text = "#"+getChannelStr(currentColor.text,0).toString(16)+wheel.color.toString().substr(1,6);
+}
+
 
 // creates color value from hue, saturation, brightness, alpha
 function hsba(h, s, b, a) {

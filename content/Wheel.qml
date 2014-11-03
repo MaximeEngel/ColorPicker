@@ -5,7 +5,7 @@ Item {
     id: root
     property real hueColor : Math.atan2(((pickerCursor.y-root.height/2)*(-1)),((pickerCursor.x-root.width/2)))
     property real saturation : Math.sqrt(Math.pow(pickerCursor.x-width/2,2)+Math.pow(pickerCursor.y-height/2,2))
-    property color color: "green"
+    property color color: "#FFFFFFFF"
 
     width: 200 ; height: 200
     clip: true

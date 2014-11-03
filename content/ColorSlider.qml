@@ -4,6 +4,7 @@ import "ColorFunctions.js" as ColorFunctions
 Item {
     property real value: (1 - pickerCursor.y/height)
     width: 15; height: parent.height
+    x: 0; y: 0
     id: root
     Item {
         id: pickerCursor

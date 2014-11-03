@@ -29,6 +29,7 @@ Row {
             color: "#AAAAAA"; selectionColor: "#FF7777AA"
             font.pixelSize: 14
             maximumLength: 10
+            readOnly: true
             focus: false
             selectByMouse: false
             validator: DoubleValidator {
