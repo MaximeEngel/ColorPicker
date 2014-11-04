@@ -21,11 +21,12 @@ function wheelHandleMouse(mouse) {
         hsbAlpha.value = alphaPicker.alpha;
 
         // construct the #AARRGGBB color
-        wheel.color = hsba(hue.value, sat.value, brightness.value, hsbAlpha.value);
-        currentColor.text = "#"+getChannelStr(currentColor.text,0).toString(16)+wheel.color.toString().substr(1,6);
+        wheel.color = hsba(hue.value, sat.value, 1, hsbAlpha.value);
+        currentColor.text = "#"+getChannelStr(currentColor.text,0).toString(16)+hsba(hue.value, sat.value, brightness.value, hsbAlpha.value).toString().substr(1,6);
 
         // brightness slider color
-        brightnessBeginColor.color = "#FF"+currentColor.text.substr(3, 6);
+        brightnessBeginColor.color = "#FF"+wheel.color.toString().substr(1,6);
+        alphaBeginColor.color = "#FF"+currentColor.text.substr(3,6);
     }
 }
 
@@ -51,32 +52,50 @@ function SliderHandleMouse(mouse, name){
         pickerCursor.y = Math.max(0, Math.min(height, mouse.y));
 
         if(name === "alphaSlider"){
-            var hsbAlphaValue = Math.ceil(pickerCursor.y / height * 100) / 100;
-            hsbAlpha.value = 1 - hsbAlphaValue;
+            var hsbAlphaValue = pickerCursor.y / height;
+            hsbAlpha.value = Math.ceil((1 - hsbAlphaValue) * 100) / 100;
             rgbAlpha.value = 255 - Math.ceil(hsbAlphaValue * 255);
 
         }
 
         if(name === "brightnessSlider"){
             var brightnessValue = 1-Math.ceil(pickerCursor.y / height * 100) / 100;
-            brightness.value = brightnessValue;
+            brightness.value = Math.ceil(brightnessValue * 100) / 100;
+            hsbaFieldChanged();
         }
     }
 }
 
 // rgba fields listener
 function rgbaFieldChanged(){
-    currentColor.text = "#" + parseInt(rgbAlpha.value).toString(16) + parseInt(red.value).toString(16) + parseInt(green.value).toString(16) + parseInt(blue.value).toString(16);
+
+    // Replace "0" if the string is just "0" instead of "00"
+    var alphastring = parseInt(rgbAlpha.value).toString(16);
+    if(alphastring.length < 2)
+        alphastring = "0" + alphastring;
+
+    var redstring = parseInt(red.value).toString(16);
+    if(redstring.length < 2)
+        redstring = "0" + redstring;
+
+    var greenstring = parseInt(green.value).toString(16);
+    if(greenstring.length < 2)
+        greenstring = "0" + greenstring;
+
+    var bluestring = parseInt(blue.value).toString(16);
+    if(bluestring.length < 2)
+        bluestring = "0" + bluestring;
+
+    currentColor.text = "#" + alphastring + redstring + greenstring + bluestring;
 }
+
 
 // hsba fields listener
 function hsbaFieldChanged(){
     // construct the #AARRGGBB color
     wheel.color = hsba(hue.value, sat.value, brightness.value, hsbAlpha.value);
-    console.log(wheel.color);
     currentColor.text = "#"+getChannelStr(currentColor.text,0).toString(16)+wheel.color.toString().substr(1,6);
 }
-
 
 // creates color value from hue, saturation, brightness, alpha
 function hsba(h, s, b, a) {
@@ -84,12 +103,6 @@ function hsba(h, s, b, a) {
     var satHSL = s*b/((lightness <= 1) ? lightness : 2 - lightness);
     lightness /= 2;
     return Qt.hsla(h, satHSL, lightness, a);
-}
-
-// creates a full color string from color value and alpha[0..1], e.g. "#FF00FF00"
-function fullColorString(clr, a) {
-    return "#" + ((Math.ceil(a*255) + 256).toString(16).substr(1, 2) +
-                  clr.toString().substr(1, 6)).toUpperCase();
 }
 
 // extracts integer color channel value [0..255] from color value

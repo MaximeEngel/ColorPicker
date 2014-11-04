@@ -43,7 +43,7 @@ Window {
             Rectangle {
                 anchors.fill: parent
                 gradient: Gradient {
-                    GradientStop { id: alphaBeginColor; position: 0.0; color: "#FF000000" }
+                    GradientStop { id: alphaBeginColor; position: 0.0; color: wheel.color }
                     GradientStop { position: 1.0; color: "#00000000" }
                 }
             }
@@ -87,7 +87,7 @@ Window {
                         anchors.verticalCenterOffset: 0
                         anchors.verticalCenter: parent.verticalCenter
                         selectByMouse: true
-                        validator: RegExpValidator { regExp: /^#([A-Fa-f0-9]{8})$/ }
+                        validator: RegExpValidator { regExp: /^([A-Fa-f0-9]{8})$/ }
                         onTextChanged: ColorFunctions.currentColorChanged(text)
                     }
                 }
@@ -95,10 +95,10 @@ Window {
                 // H, S, B color value boxes
                 Column {
                     width: parent.width
-                    NumberBox { id: hue; caption: "H"; value:"0.0"; onValueChanged: ColorFunctions.hsbaFieldChanged()}
-                    NumberBox { id: sat; caption: "S"; value:"0.0"; onValueChanged: ColorFunctions.hsbaFieldChanged()}
-                    NumberBox { id: brightness; caption: "B"; value:"0.0"; onValueChanged: ColorFunctions.hsbaFieldChanged()}
-                    NumberBox { id: hsbAlpha; caption: "A"; value:"1.0"; onValueChanged: ColorFunctions.hsbaFieldChanged()}
+                    NumberBox { id: hue; caption: "H"; value:"0.0"}
+                    NumberBox { id: sat; caption: "S"; value:"0.0"}
+                    NumberBox { id: brightness; caption: "B"; value:"1.0"}
+                    NumberBox { id: hsbAlpha; caption: "A"; value:"1.0"}
                 }
 
                 // R, G, B color values boxes
